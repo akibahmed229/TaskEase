@@ -1,0 +1,26 @@
+services:
+  backend:
+    container_name: taskease_backend
+    build:
+      context: ./
+    ports:
+      - 8000:8000
+    environment:
+      - PORT=8000
+      - DATABASE_URL=postgresql://taskease_backend:taskease_backend123:5033
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:15
+    container_name: taskease_database
+    restart: always
+    environment:
+      POSTGRES_USER: taskease_backend
+      POSTGRES_PASSWORD: taskease_backend123
+      POSTGRES_DB: taskease
+    ports:
+      - 5033:5432

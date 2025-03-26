@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/auth/pages/login_page.dart';
+import 'package:frontend/features/auth/pages/signup_page.dart';
 
-class SignupPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   static MaterialPageRoute route() => MaterialPageRoute(
-        builder: (context) => const SignupPage(),
+        builder: (context) => const LoginPage(),
       );
 
-  const SignupPage({super.key});
+  const LoginPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _LoginPageState extends State<LoginPage> {
   // Create controllers for the text fields to store the user input
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final nameController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -25,11 +24,10 @@ class _SignupPageState extends State<SignupPage> {
     // Dispose of the controllers when the widget is removed from the tree
     emailController.dispose();
     passwordController.dispose();
-    nameController.dispose();
     super.dispose();
   }
 
-  void signUpUser() {
+  void loginUser() {
     if (_formKey.currentState!.validate()) {
       // If the form is valid, perform the sign up operation
       // Call the API to sign up the user
@@ -47,28 +45,15 @@ class _SignupPageState extends State<SignupPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Sign Up",
+                "Login",
                 style: TextStyle(
                   fontSize: 50,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              // Name
-              const SizedBox(height: 30),
-              TextFormField(
-                controller: nameController,
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return "Name is required!";
-                  }
-                },
-                decoration: const InputDecoration(
-                  labelText: "Name",
-                ),
-              ),
               // Email
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: emailController,
                 validator: (value) {
@@ -97,9 +82,9 @@ class _SignupPageState extends State<SignupPage> {
               // Sign Up Button
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: signUpUser,
+                onPressed: loginUser,
                 child: const Text(
-                  "Sign Up",
+                  "Login",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -107,19 +92,20 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
 
-              // Already have an account? Login
+              // Don't have an account? Sign In
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(LoginPage.route());
+                  // Navigate to the sign up page and destroy the current page from the stack
+                  Navigator.of(context).pushReplacement(SignupPage.route());
                 },
                 child: RichText(
                   text: TextSpan(
-                    text: "Already have an account? ",
+                    text: "Don't have an account? ",
                     style: Theme.of(context).textTheme.titleMedium,
                     children: const [
                       TextSpan(
-                        text: "Login",
+                        text: "Sign In",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
